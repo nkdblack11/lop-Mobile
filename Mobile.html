@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mobile</title>
+</head>
+<body>
+<script language="JavaScript">
+    let Mobile = function (name) {
+        this.name = name
+        let pin = 100
+        let status = "off"
+        let noti = function () {
+            if (pin <= 0) {
+                return false;
+            }else {
+                return true;
+            }
+        }
+        this.start = function () {
+            if (pin <= 0) {
+                return 'mobile hết pin ' + status;
+            }
+            status = "on"
+            return status;
+        }
+        this.end = function () {
+            status = "off"
+            return status;
+        }
+        this.getStatus = function () {
+            if (pin <= 0) {
+                return 'mobile hết pin'
+            }
+            pin--
+            return status;
+        }
+
+        this.getPin = function () {
+            pin--
+            return pin
+        }
+        this.battery = function (number) {
+            if (!isNaN(parseInt(number))) {
+                pin += number
+                if (pin > 100) {
+                    pin = 100
+                    return 'Nạp pin thành công'
+                }
+            } else {
+                return 'Nạp pin thất bại, Giá trị truyền vào phải là số'
+            }
+        }
+        let drafts = [];
+
+        let send = [];
+        this.compose = function (contact, content, onSend) {
+            if (pin <= 0){
+                return 'mobile hết pin'
+            }
+            pin--
+            let message = {contact: contact.name,content};
+            if (onSend){
+                contact.message(this, content)
+                send.push(message);
+            } else {
+                drafts.push(message);
+            }
+        }
+        this.getDrafts = function () {
+            if (pin <= 0){
+                return 'mobile hết pin'
+            }
+            pin--
+            return drafts;
+        }
+        let inbox = [];
+
+        this.message = function (contact,message) {
+            console.log('messege', contact)
+            let post = {name: contact.name, message};
+            inbox.push(post);
+        }
+        this.getInbox = function () {
+            return inbox
+        }
+        this.getSend = function () {
+            return send;
+        }
+    }
+</script>
+</body>
+</html>
